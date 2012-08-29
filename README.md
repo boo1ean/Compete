@@ -1,7 +1,7 @@
 PHP wrapper for [Compete API](https://www.compete.com/developer/).
 
 ## Examples of usage
-Wrapper has generic method get. You can retrieve any kind of metric via this method:
+Wrapper has generic method `get`. You can retrieve any kind of metric via this method:
 ```php
 <?php
 require 'Compete.php';
@@ -46,13 +46,16 @@ Also you can use specific methods for getting data:
   // The average number of pages displayed during a visit
   $compete->pagesVisit('example.com');
 
-  // The percent of total minutes spent by all US users on the internet that were spent on this domain
+  // The percent of total minutes spent by all US users
+  // on the internet that were spent on this domain
   $compete->attention('example.com');
 
-  // The percent of all US users on the internet that had at least one visit to this domain by day
+  // The percent of all US users on the internet that
+  // had at least one visit to this domain by day
   $compete->dailyReach('example.com');
 
-  // The percent of total minutes spent by all US users on the internet that were spent on this domain by day
+  // The percent of total minutes spent by all US users 
+  // on the internet that were spent on this domain by day
   $compete->dailyAttention('example.com');
 
   // The split between males and females visiting a domain
@@ -66,6 +69,7 @@ Also you can use specific methods for getting data:
 ```
 
 ## Response format
+Return values have same format but decoded via `json_decode` (wrapped in `stdClass`).
 Trends field name depends on specific metric.
 ```json
 {
@@ -87,7 +91,7 @@ Trends field name depends on specific metric.
 ```
 
 ## Errors
-If there is some error in request wrapper will throw CompeteException.
+If there is some error in request wrapper will throw `CompeteException`.
 
 ## TODO
 * Add support for additional request params(date, graph, ...)
