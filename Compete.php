@@ -14,14 +14,33 @@ class Compete
   private $_urlKeys = array(':domain', ':metric', ':key');
   private $_apiKey;
 
+  // For url cleaning
+  private $_toSearch   = array('http://', 'www.');
+  private $_toReplace  = array('', '');
+
   public function __construct($apiKey) {
     $this->_apiKey = $apiKey;
   }
 
   public function get($site, $metric) {
-    $values = array($site, $metric, $this->_apiKey);
+    $values = array(
+      $this->_prepareUrl($site),
+      $metric,
+      $this->_apiKey
+    );
+
     $url = str_replace($this->_urlKeys, $values, self::API_BASE_URL);
     return json_decode($this->_get($url));
+  }
+
+  /**
+   * Cut unnecessary parts of url.
+   *
+   * @param string $url some url.
+   * @return string trimmed url.
+   */
+  private function _prepareUrl($url) {
+    return str_replace($this->_toSearch, $this->_toReplace, $url);
   }
 
   /**
