@@ -62,11 +62,40 @@ class Compete
   );
 
   /**
+   * List of available methods for __call() implementation.
+   */
+  private $_metrics = array(
+    'uniqueVisitors' => 'uv',
+    'visits'         => 'vis',
+    'rank'           => 'rank',
+    'pageViews'      => 'pv',
+    'averageStay'    => 'avgstay',
+    'visitsPerson'   => 'vpp',
+    'pagesVisit'     => 'ppv',
+    'attention'      => 'att',
+    'dailyReach'     => 'reachd',
+    'dailyAttention' => 'attd',
+    'gender'         => 'gen',
+    'age'            => 'age',
+    'income'         => 'inc'
+  );
+
+  /**
    * Create access to Compete API.
    * @param string $apiKey user's api key.
    */
   public function __construct($apiKey) {
     $this->_apiKey = $apiKey;
+  }
+
+  /**
+   * Implement specific methods.
+   */
+  public function __call($name, $args) {
+    if (array_key_exists($name, $this->_metrics) && isset($args[0]))
+      return $this->get($args[0], $this->_metrics[$name]);
+
+    throw new CompeteException($name . ' method does not exist.');
   }
 
   /**
